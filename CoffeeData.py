@@ -1,4 +1,11 @@
-from Tkinter import *
+import sys
+if sys.version_info[0] == 3:
+    # for Python3
+    from tkinter import *
+else:
+    # for Python2
+    from Tkinter import *
+
 import csv
 
 csvfile = "coffee.csv"
@@ -39,6 +46,7 @@ def writeToFile():
 
 
 master = Tk()
+master.title("Enter Data")
 Label(master, text="Roaster").grid(row=0)
 Label(master, text="Origin/Blend").grid(row=1)
 Label(master, text="Roast Date").grid(row=2)
