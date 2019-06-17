@@ -20,7 +20,8 @@ import csv
 csvfile = "coffee.csv"
 
 spreadsheet_id = '10gIsAO2j5qxmsvujx7QFdjygIvcQvwgZFnkinoMoMkE'
-range_name = 'Pour Over!A1:M1'
+range_name = 'Pour Over!A1:M999'
+last_range = 'Pour Over!A23'
 
 def getsheet(spreadsheet_id, range_name ) :
     creds = None
@@ -46,7 +47,7 @@ def getsheet(spreadsheet_id, range_name ) :
     service = build('sheets', 'v4', credentials=creds)
 
     # Call the Sheets API
-    gsheet = service.spreadsheets().values().get(spreadsheetId=spreadsheet_id, range=range_name).execute()
+    gsheet = service.spreadsheets().values().get(spreadsheetId=spreadsheet_id, range=last_range).execute()
     header = gsheet.get('values', [])[0]
     print(header)
     return gsheet
@@ -87,8 +88,9 @@ def writeToFile():
         g9 = e9.get()
         g10 = e10.get()
         g11 = e11.get()
-        row = [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11]
-        row1 = [[g1], [g2], [g3], [g4], [g5], [g6], [g7], [g8], [g9], [g10], [g11]]
+        g12 = e12.get()
+        row = [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12]
+        row1 = [[g1], [g2], [g3], [g4], [g5], [g6], [g7], [g8], [g9], [g10], [g11],[g12]]
 
         writer = csv.writer(csvFile)
         writer.writerow(row)
@@ -141,7 +143,7 @@ Label(master, text="Brew Date").grid(row=3)
 Label(master, text="Mug Size(oz)").grid(row=4)
 Label(master, text="Grind Setting").grid(row=5)
 Label(master, text="Grinder").grid(row=6)
-Label(master, text="Coffee(grams").grid(row=7)
+Label(master, text="Coffee(grams)").grid(row=7)
 Label(master, text="Brew Time (Min:Sec)").grid(row=8)
 Label(master, text="Temp(F)").grid(row=9)
 Label(master, text="Roaster Notes").grid(row=10)
