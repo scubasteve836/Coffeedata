@@ -20,7 +20,7 @@ import csv
 csvfile = "coffee.csv"
 
 spreadsheet_id = '10gIsAO2j5qxmsvujx7QFdjygIvcQvwgZFnkinoMoMkE'
-range_name = 'Pour Over!A1:M999'
+range_name = 'Pour Over!A1:N999'
 last_range = 'Pour Over!A23'
 
 def getsheet(spreadsheet_id, range_name ) :
@@ -60,19 +60,17 @@ getsheet(spreadsheet_id, range_name)
 
 
 #readitem(gsheet)
-def show_entry_fields():
-    print("First Name: %s\nLast Name: %s" % (e1.get(), e2.get()))
-    e1.delete(0, END)
-    e2.delete(0, END)
+#def show_entry_fields():
 
 
-def output(self):
+
+'''def output(self):
     Label(text='Name:').pack(side=LEFT, padx=5, pady=5)
     self.e = Entry(root, width=10)
     self.e.pack(side=LEFT, padx=5, pady=5)
 
     self.b = Button(root, text='Submit', command=self.writeToFile)
-    self.b.pack(side=RIGHT, padx=5, pady=5)
+    self.b.pack(side=RIGHT, padx=5, pady=5)'''
 
 
 def writeToFile():
@@ -81,16 +79,18 @@ def writeToFile():
         g2 = e2.get()
         g3 = e3.get()
         g4 = e4.get()
-        g5 = e5.get()
+        g5 = method.get()
         g6 = e6.get()
         g7 = e7.get()
-        g8 = e8.get()
+        g8 = grinder.get()
         g9 = e9.get()
         g10 = e10.get()
         g11 = e11.get()
         g12 = e12.get()
-        row = [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12]
-        row1 = [[g1], [g2], [g3], [g4], [g5], [g6], [g7], [g8], [g9], [g10], [g11],[g12]]
+        g13 = e13.get()
+        row = [g1, g2, g3, g4, g5, g6, g7, g8, g9, g10, g11, g12,g13]
+        # row 1 is for the google sheet entry
+        row1 = [[g1], [g2], [g3], [g4], [g5], [g6], [g7], [g8], [g9], [g10], [g11], [g12],[g13]]
 
         writer = csv.writer(csvFile)
         writer.writerow(row)
@@ -123,44 +123,60 @@ def writeToFile():
         spreadsheetId=spreadsheet_id, range=range_name,
         valueInputOption='USER_ENTERED', body=body).execute()
     print(result)
-
+    # Clear Current Entry text to get ready for next input
+    e1.delete(0, END)
+    e2.delete(0, END)
+    e3.delete(0, END)
+    e4.delete(0, END)
+    e6.delete(0, END)
+    e7.delete(0, END)
+    e9.delete(0, END)
+    e10.delete(0, END)
+    e11.delete(0, END)
+    e12.delete(0, END)
+    e13.delete(0,END)
 
 
 #build the gui
 master = Tk()
 master.title("Enter Coffee Data")
 
-brewmethod = StringVar(master)
-brewmethod.set("Pour Over")
-dropdown = OptionMenu(master, brewmethod, "Pour Over", "Siphon", "Auto Drip")
-dropdown.pack
+grinder = StringVar(master)
+grinder.set("Baratza Virtuoso") # default value
+
+e8 = OptionMenu(master, grinder, "Baratza Virtuoso", "Hand Ground")
+
+method = StringVar(master)
+method.set("Pour Over")
+
+e5 = OptionMenu(master, method, "Pour Over", "Auto Drip", "Siphon","Chemex" )
 
 
 Label(master, text="Roaster").grid(row=0)
 Label(master, text="Origin/Blend").grid(row=1)
 Label(master, text="Roast Date").grid(row=2)
 Label(master, text="Brew Date").grid(row=3)
-Label(master, text="Mug Size(oz)").grid(row=4)
-Label(master, text="Grind Setting").grid(row=5)
-Label(master, text="Grinder").grid(row=6)
-Label(master, text="Coffee(grams)").grid(row=7)
-Label(master, text="Brew Time (Min:Sec)").grid(row=8)
-Label(master, text="Temp(F)").grid(row=9)
-Label(master, text="Roaster Notes").grid(row=10)
-Label(master, text="My Notes").grid(row=11)
+Label(master, text="Brew Method").grid(row=4)
+Label(master, text="Mug Size(oz)").grid(row=5)
+Label(master, text="Grind Setting").grid(row=6)
+Label(master, text="Grinder").grid(row=7)
+Label(master, text="Coffee(grams)").grid(row=8)
+Label(master, text="Brew Time (Min:Sec)").grid(row=9)
+Label(master, text="Temp(F)").grid(row=10)
+Label(master, text="Roaster Notes").grid(row=11)
+Label(master, text="My Notes").grid(row=12)
 
 e1 = Entry(master)
 e2 = Entry(master)
 e3 = Entry(master)
 e4 = Entry(master)
-e5 = Entry(master)
 e6 = Entry(master)
 e7 = Entry(master)
-e8 = Entry(master)
 e9 = Entry(master)
 e10 = Entry(master)
 e11 = Entry(master)
 e12 = Entry(master)
+e13 = Entry(master)
 
 e1.grid(row=0, column=1)
 e2.grid(row=1, column=1)
@@ -174,10 +190,10 @@ e9.grid(row=8, column=1)
 e10.grid(row=9, column=1)
 e11.grid(row=10, column=1)
 e12.grid(row=11, column=1)
-
+e13.grid(row=12, column=1)
 #buttons!
-Button(master, text='Quit', command=master.destroy).grid(row=12, column=0, sticky=W, pady=4)
-Button(master, text='Show', command=show_entry_fields).grid(row=12, column=1, sticky=W, pady=4)
-Button(master, text='Submit', command=writeToFile).grid(row=12, column=2, sticky=W, pady=4)
+Button(master, text='Quit', command=master.destroy).grid(row=13, column=0, sticky=W, pady=4)
+#Button(master, text='Show', command=show_entry_fields).grid(row=12, column=1, sticky=W, pady=4)
+Button(master, text='Submit',  command=writeToFile).grid(row=13, column=2, sticky=W, pady=4)
 
 mainloop()
